@@ -34,34 +34,55 @@ maxDig.textContent = max;
 // Listen for the guess button
 
 guessBtn.addEventListener('click', function () {
-	
+
 	let guess = parseInt(guessInput.value);
 
 	// Validate input
 
 	if (isNaN(guess) || guess < min || guess > max) {
-		
+
 		setMessage(`Please enter a number between ${min} and ${max}`, 'red');
 
 	} else {
-		
+
 	}
 
 	// Check if player wins
 	if (guess === winningDig) {
-		
-		//Disable input field
-		guessInput.disabled = true;
 
-		//Change border colour
-		guessInput.style.borderColor = 'green';
+		gameOver(true, `You won! The random number was ${winningDig}`);
 
-		// Player winning notification
-		setMessage(`You won! The random number was ${winningDig}`, 'green');
+		// //Disable input field
+		// guessInput.disabled = true;
+
+		// //Change border colour
+		// guessInput.style.borderColor = 'green';
+
+		// // Player winning notification
+		// setMessage(`You won! The random number was ${winningDig}`, 'green');
 
 	} else {
 
+		//Game over
+		if (guessesLeft === 0) {
 
+			gameOver(false, `Game over! You've lost. The correct number was ${winningDig}`);
+
+		} else {
+
+			// Game continues when answer is wrong
+
+			//If guess is wrong
+			guessesLeft -= 1;
+
+			// Player losing notification
+			setMessage(`${guess} is wrong! You have ${guessesLeft} chances left`, 'orange');
+
+
+
+
+
+		}
 
 	}
 
@@ -71,9 +92,31 @@ guessBtn.addEventListener('click', function () {
 // Set Message function
 
 function setMessage(msg, colour) {
-	
+
 	message.style.color = colour;
 	message.textContent = msg;
 
+
+}
+
+
+// Game over function
+
+function gameOver(won, msg) {
+
+	let colour;
+	won === true ? colour = 'green' : 'red';
+
+	//Disable input field
+	guessInput.disabled = true;
+
+	//Change border colour
+	guessInput.style.borderColor = colour;
+
+	//Change message colour
+	message.style.color = colour;
+
+	// Player winning notification
+	setMessage(msg);
 
 }
