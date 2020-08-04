@@ -13,12 +13,12 @@ Let the player play again */
 // Game values
 let min = 1,
 	max = 10,
-	winningDig = 2,
+	winningDig = getRandomNum(min, max),
 	guessesLeft = 3;
 
 // UI Elements
 
-const game = document.querySelector('#game'),
+const game = document.querySelector('.game'),
 	minDig = document.querySelector('.min-dig'),
 	maxDig = document.querySelector('.max-dig'),
 	guessBtn = document.querySelector('#guess-value'),
@@ -30,6 +30,19 @@ const game = document.querySelector('#game'),
 
 minDig.textContent = min;
 maxDig.textContent = max;
+
+
+// Play Again event listener
+
+game.addEventListener('mousedown', function (e) {
+
+	if (e.target.className === 'play-again') {
+
+		window.location.reload();
+
+	}
+
+});
 
 // Listen for the guess button
 
@@ -43,23 +56,12 @@ guessBtn.addEventListener('click', function () {
 
 		setMessage(`Please enter a number between ${min} and ${max}`, 'red');
 
-	} else {
-
 	}
 
 	// Check if player wins
 	if (guess === winningDig) {
 
 		gameOver(true, `You won! The random number was ${winningDig}`);
-
-		// //Disable input field
-		// guessInput.disabled = true;
-
-		// //Change border colour
-		// guessInput.style.borderColor = 'green';
-
-		// // Player winning notification
-		// setMessage(`You won! The random number was ${winningDig}`, 'green');
 
 	} else {
 
@@ -79,25 +81,11 @@ guessBtn.addEventListener('click', function () {
 			setMessage(`${guess} is wrong! You have ${guessesLeft} chances left`, 'orange');
 
 
-
-
-
 		}
 
 	}
 
 });
-
-
-// Set Message function
-
-function setMessage(msg, colour) {
-
-	message.style.color = colour;
-	message.textContent = msg;
-
-
-}
 
 
 // Game over function
@@ -118,5 +106,31 @@ function gameOver(won, msg) {
 
 	// Player winning notification
 	setMessage(msg);
+
+
+
+	// Play again
+	guessBtn.value = 'Play Again';
+	guessBtn.className += 'play-again';
+
+}
+
+
+// Get Winning Number
+
+function getRandomNum(min, max) {
+	
+	return Math.floor(Math.random() * (max - min + 1) + min);
+
+}
+
+
+// Set Message function
+
+function setMessage(msg, colour) {
+
+	message.style.color = colour;
+	message.textContent = msg;
+
 
 }
